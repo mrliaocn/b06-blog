@@ -1,11 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 	<meta charset="UTF-8">
-	<title>B06 Blog</title>
-	<script data-main="main.js" src="libs/require.js"></script>
+	<title>B06 Innovation Space</title>
+	<link rel="stylesheet" type="text/css" href="static/css/b06.css">
+	
 </head>
 <body>
-	<div ng-view></div>
+	<div id="header" class="header header-shadow" >
+		<div class="h-item l">
+			<a href="#/" class="logo">
+				<img src="static/img/logo.png">
+			</a>
+		</div>
+		<div class="h-item r">
+			<div class="inline-btn">
+				<a class="btn" href="#/">文章</a>
+				<a class="btn" href="#/user/all">用户</a>
+				<a class="btn" href="#/tags/all">标签</a>
+				<a class="btn" href="#/user/{{cur_user}}">我</a>
+				<a class="btn" href="#/post">写文章</a>
+				<a class="btn" href="#/logout">注销</a><!-- 
+				<a class="btn" href="#/login">登录</a>
+				<a class="btn" href="#/register">注册</a>
+ -->		</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div ng-view></div>
+	</div>
+
+	<div class="footer">
+		<p>
+			2015-2016 © <a class="out-link" href="baidu.com">B06 Innovation Space</a>
+			& <a class="out-link" href="#">Source of USTB</a>
+		</p>
+	</div>
+
+	<script data-main="static/js/main.js" src="libs/require.js"></script>
 </body>
 </html>

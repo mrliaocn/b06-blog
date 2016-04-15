@@ -1,0 +1,130 @@
+/*@charset "utf-8"*/
+/*Created by mrliao on (time)*/
+@font-face {
+    font-family: 'Square721 BT';
+    src: url("../fonts/Square721 BT.TTF");
+}
+*{
+	font-family: 'Square721 BT','微软雅黑';
+	color: #00561C; 
+}
+a{
+	text-decoration: none;
+}
+hr{
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+    color: #00561C;
+}
+.l{
+	float: left;
+}
+.r{
+	float: right;
+}
+.disabled{
+	cursor: not-allowed !important;
+}
+.btn{
+	padding: 5px 8px;
+	border:1px solid #00561C;
+	background-color:transparent;
+	border-radius: 8px;
+	cursor: pointer;
+}
+.btn:hover{
+	background: #00561C;
+	color: #fff;
+}
+.inline-btn{
+	display: inline-block;
+	margin: 0;
+}
+.inline-btn .btn{
+	margin-left: -6px;
+	border-width: 1px 1px 1px 0px;
+	border-radius: 0;
+	display: table-cell;
+}
+.inline-btn .btn:first-child{
+	border-width: 1px;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+.inline-btn .btn:last-child{
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+.out-link:hover{
+	text-decoration: underline;
+}
+body{
+	margin:0;
+	padding: 0;
+	background: url("../img/bg.jpg");
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+.header{
+	height: 75px;
+	width: 100%;
+	margin-bottom: -75px;
+	min-width: 990px;
+	
+}
+.header-shadow{
+	border-bottom: 1px solid #ddd;
+	box-shadow: 0 2px 16px 1px #999;
+	position: fixed;
+	background: url("../img/bg.jpg");
+	margin-bottom: 0;
+}
+.h-item{
+	height: 45px;
+	margin: 0 30px;
+	padding: 15px 0;
+	position: relative;
+}
+.h-item:first-child{
+	margin-left: 200px;
+}
+.h-item:last-child{
+	margin-right: 200px;
+}
+.logo{
+	display: inline-block;
+	font-size: 35px;
+}
+.logo img{
+	height: 40px;
+}
+
+.container{
+	padding-top:75px; 
+	flex: 1;
+	margin: 0 200px;
+	min-width: 970px;
+}
+.ct-box{
+	margin: 40px 0 30px 0;
+}
+.ct-box hr{
+	margin: 30px 0;
+}
+.ct-info,.ct-tags,.ct-page{
+	font-size: 12px;
+	margin-right: 20px;
+}
+.cur-page{
+	background: #00561C;
+	color: #fff;
+}
+.footer{
+	height: 40px;
+	min-width: 990px;
+	text-align: center;
+	font-size: 12px;
+}
