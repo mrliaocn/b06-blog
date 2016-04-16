@@ -1,3 +1,5 @@
 define(['jquery'], function ($){
-	return console.log($);
+	return function  () {
+		hljs.initHighlightingOnLoad();
+	}
 })

@@ -1,23 +1,22 @@
-<div ng-repeat="ct in conts" class="ct-box">
-	<a href="#/a/{{ct.aid}}"><h3 ng-bind ="ct.title"></h3></a>
+<!-- dark: gruvbox-dark.css / monokai-sublime.css -->
+<!-- light: foundation  github-gist-->
+<link rel="stylesheet" href="static/css/hightlight/foundation.css">
+<div class="ct-box">
+	<h3 ng-bind ="cont.title"></h3>
 
 	<div class="ct-info inline-btn">
-		<a href="#/user/{{ct.author}}" class="btn" ng-bind ="ct.author"></a>
-		<a class="btn" ng-bind ="ct.timestr"></a>
+		<a href="#/user/{{cont.author}}" class="btn" ng-bind ="cont.author"></a>
+		<a class="btn" ng-bind ="cont.timestr"></a>
 	</div>
 
-	<div class="ct-tags inline-btn" ng-if='ct.tags.length'>
-		<a ng-repeat="tag in ct.tags" href="#/tags/{{tag}}" class="btn" ng-bind ="'#'+tag"></a>
+	<div class="ct-tags inline-btn" ng-if='cont.tags.length'>
+		<a ng-repeat="tag in cont.tags" href="#/tags/{{tag}}" class="btn" ng-bind ="'#'+tag"></a>
 	</div>
 
-	<a href="#/a/{{ct.aid}}"><p ng-bind ="ct.summary"></p></a>
+	<div class="ct-content" id="contHtml"></div>
 
 	<hr>
 </div>
-<div class="ct-page inline-btn" ng-if="page_num.length >= 2">
-	<a href="#/p={{(cur_page == 1)? '#':cur_page-1}}" ng-class="{'disabled':cur_page == 1}" class="btn">上一页</a>
-
-	<a ng-repeat="page in page_num" href="#/p={{page}}" ng-class="{'cur-page':page == cur_page}" class="btn" ng-bind="page"></a>
-
-	<a href="#/p={{(cur_page == all_page)? '#':cur_page+1}}" ng-class="{'disabled':cur_page == all_page}" class="btn">下一页</a>
-</div>
+<script>
+	
+</script>
