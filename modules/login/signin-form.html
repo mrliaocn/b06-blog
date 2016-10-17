@@ -1,0 +1,10 @@
+<div class="signin-pop">
+	<span class="form-head">注册<span style='color:red'>{{error_info}}</span></span>
+	<form class="form-area" ng-submit="signin()">
+		<input type="text" ng-model="new_user.email" pattern="(\w)+@((\w)+\.)+[a-z]+" placeholder="登录邮箱">
+		<input type="text" ng-model="new_user.username" pattern="^(\w){5,10}$" placeholder="5-10位用户名">
+		<input type="password" ng-model="new_user.password" pattern="^[A-Za-z0-9\,\.\?\/\\\~\!\@\!\#\$\%\^\&\*\-]{8,18}$" ng-keyup="check_pwd()" placeholder="8-18位密码">
+		<input type="password" ng-model="new_user.pwdrepeat" ng-class="{'ng-invalid-pattern':new_user.isInvalid}" ng-keyup="check_pwd()" placeholder="确认密码">
+		<input type="submit" class="btn" value="注册">
+	</form>
+</div>

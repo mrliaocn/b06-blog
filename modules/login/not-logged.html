@@ -1,0 +1,8 @@
+<div class="inline-btn">
+	<a class="btn" href="#/user/all" >用户</a>
+	<a class="btn" href="#/tags/all" >标签</a>
+	<a class="btn" href="#/" ng-bind="'文章({{all_ariticles}})'">文章</a>
+	<a class="btn" ng-click="show_mask('login')">登录</a>
+	<a class="btn" ng-click="show_mask('signin')">注册</a>
+</div>
+<div class="log-mask" ng-click="hide_mask($event)" ng-include src="log_form_template"></div>

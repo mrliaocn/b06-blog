@@ -5,20 +5,20 @@ define(['angular'], function (angular) {
     return function ArticleListCtrl($scope, $routeParams){
     	var p = parseInt($routeParams.p);
 
-    	var pre = 2;	//每页文章数
+    	var pre = 6;	//每页文章数
     	var btn_num = 5;		//分页器最多显示多少页的按钮,必须为奇数(两边对称)
     	var articles =[
 	    	{
 	    		aid : 'Oxd450oXd239N',
-	    		title : '第一篇测试文章',
+	    		title : 'angularjs学习笔记——使用requirejs动态注入控制器',
 	    		author : 'mrliao',
 	    		timestr : '2016-4-16',
-	    		tags : ['标签1','标签二','333'],
-	    		summary : 'AngularJS是为了克服HTML在构建应用上的不足而设计的。HTML是一门很好的为静态文本展示设计的声明式语言，但要构建WEB应用的话它就显得乏力了。所以我做了一些工作（你也可以觉得是小花招）来让浏览器做我想要的事。通常，我们是通过以下技术来解决静态网页技术在构建动态应用上的不足：类库 - 类库是一些函数的集合，它能帮助页技术在构建动态应用上的不足：类库 - 类库是一些函数...'
+	    		tags : ['angularjs','requirejs'],
+	    		summary : '最近一段时间在学习angularjs，由于觉得直接使用它需要加载很多的js文件，因此想使用requirejs来实现异步加载，并动态注入控制器。简单搜索了下发现好多教程写的都很复杂，所以打算写一下我的方法，算是学习笔记了...'
 	    	},
 	    	{
 	    		aid : 'Oxd450oXd23gd',
-	    		title : '第二篇测试文章',
+	    		title : '第二篇测试文章这个标题非常长1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
 	    		author : 'mrliao',
 	    		timestr : '2016-4-16',
 	    		tags : ['tag1','tag4'],
@@ -110,7 +110,7 @@ define(['angular'], function (angular) {
 
     	// 确保cur_page的值,不得大于all_page,且不得小于1;
     	($scope.cur_page = (isNaN(p) || p<1) ? 1 : p) > all_page ? $scope.cur_page = all_page :1;
-    	console.log($scope.cur_page);
+    	// console.log($scope.cur_page);
 
     	$scope.page_num = [];
 
@@ -137,7 +137,6 @@ define(['angular'], function (angular) {
 	    	}
     	}
     	
-    	$scope.all_ariticle = articles.length;
     	$scope.all_page = all_page;
     	$scope.conts = articles.slice(($scope.cur_page-1)*pre, $scope.cur_page*pre);
     }

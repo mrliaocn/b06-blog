@@ -1,0 +1,8 @@
+<div class="login-pop">
+	<span class="form-head">登录<span style='color:red'>{{error_info}}</span></span>
+	<form class="form-area" ng-submit="login()">
+		<input type="text" ng-model="tologin_user.email" pattern="(\w)+@((\w)+\.)+[a-z]+" placeholder="登录邮箱">
+		<input type="password" ng-model="tologin_user.password" pattern="^[A-Za-z0-9\,\.\?\/\\\~\!\@\!\#\$\%\^\&\*\-]{8,18}$" placeholder="你的密码">
+		<input type="submit" class="btn" value="登录">
+	</form>
+</div>

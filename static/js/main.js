@@ -12,15 +12,17 @@
         paths: {                    //如果某个前缀的依赖不是按照baseUrl拼接这么简单，就需要在这里指出
             'jquery': 'libs/jquery.min',
             'angular': 'libs/angular.min',
-            'angular-route': 'libs/angular-route.min',
-            'angular-sanitize':'libs/angular-sanitize.min',
-            'Hyperdown':'libs/Hyperdown',
-            'highlight':'libs/highlight.pack',
+            'angular-route': 'libs/angular-route.min',  // 路由模块
+            'angular-cookies':'libs/angular-cookies.min',    // Cookie模块
+            'Hyperdown':'libs/Hyperdown',               // MarkDown解析模块
+            'highlight':'libs/highlight.pack',          // 代码高亮模块
+            'logInfo':'modules/login/logInfo',          // 登录注册验证模块
 
-            'router' : 'static/js/router',
-            'app' : 'static/js/app'
+            'router' : 'static/js/router',              // 路由设置
         },
-        shim: {                     //引入没有使用requirejs模块写法的类库。例如underscore这个类库，本来会有一个全局变量'_'。这里shim等于快速定义一个模块，把原来的全局变量'_'封装在局部，并导出为一个exports，变成跟普通requirejs模块一样
+        // 引入没有使用requirejs模块写法的类库。
+        // 即使写法符合requirejs，也没有关系。保险起见
+        shim: {
             'jquery': {
                 exports: '$'
             },
@@ -28,12 +30,12 @@
                 exports: 'angular'
             },
             'angular-route': {
-                deps: ['angular'],   //依赖什么模块
+                deps: ['angular'],   
                 exports: 'ngRoute'
             },
-            'angular-sanitize': {
-                deps: ['angular'],   //依赖什么模块
-                exports: 'ngSanitie'
+            'angular-cookies': {
+                deps: ['angular'],   
+                exports: 'ngCookies'
             },
             'Hyperdown':{
                 exports: 'Hyperdown'
@@ -46,9 +48,10 @@
 
     require.config(config);
 
-    require(['angular','router'], function(angular){
-        
-        angular.bootstrap(document, ['blogApp']);
+    require(['angular','router','logInfo'], function(angular){
+
+        angular.bootstrap(document.getElementById("header"), ['logInfo']);
+        angular.bootstrap(document.getElementById("container"), ['appCont']);
     });
 
 })(window);

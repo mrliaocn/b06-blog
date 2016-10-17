@@ -1,29 +1,18 @@
 /*  ArticleDetailCtrl.js Created by mrliao on 2016-4-15  */
 
-
-
 define(['angular','Hyperdown','highlight','jquery'], function (angular) {
 
-    return function ArticleDetailCtrl($scope, $routeParams, $sce){
-    	var aid = parseInt($routeParams.aid);
+    return function ArticleDetailCtrl($scope, $routeParams){
+        var aid = parseInt($routeParams.aid);
 
-    	var article ={
-    		aid : 'Oxd450oXd239N',
-    		title : '第一篇测试文章',
-    		author : 'mrliao',
-    		timestr : '2016-4-16',
-    		tags : ['标签1','标签二','333'],
-    		content : "经过一番比较，最后还是决定博客用[Hexo](https://hexo.io/)来建，好看又好用。由于Hexo发表博客使用的是`Markdown`语法，所以，为了熟悉一下`Markdown`。\n"+
-                        "```python\n"+
-                        "print 'hello world!'\n"+
-                        "# what's the matter?\n"+
-                        "```\n\n"+
-                        '```\n'+
-                        '<link rel="stylesheet" href="static/css/hightlight/foundation.css">\n'+
-                        '<div class="ct-box">\n'+
-                        '   <h3 ng-bind ="cont.title"></h3>\n'+
-                        '```'
-    	};
+        var article ={
+            aid : 'Oxd450oXd239N',
+            title : 'angularjs学习笔记——使用requirejs动态注入控制器',
+            author : 'mrliao',
+            timestr : '2016-4-16',
+            tags : ['angularjs','requirejs'],
+            content :"最近一段时间在学习`angularjs`，由于觉得直接使用它需要加载很多的js文件，因此想使用`requirejs`来实现异步加载，并动态注入控制器。简单搜索了下发现好多教程写的都很复杂，所以打算写一下我的方法，算是学习笔记了。\n\ndemo目录如下图：\n![demo目录结构](./media/images/angularjs-demo1.PNG)\n\n`index.html`文件的内容：\n```\n<!-- index.html -->\n<!DOCTYPE html>\n<html lang='en'>\n<head>\n    <meta charset='UTF-8'>\n    <title>demo</title>\n    \n    <!-- 引入requirejs，并在main.js中初始化 -->\n    <script data-main='main.js' src='libs/require.js'>\n</script>\n</head>\n<body>\n    <div ng-view></div>\n</body>\n</html>\n```\n在引入`main.js`后，就需要在其中完成`requirejs`的初始化：\n```javascript\n// main.js\n\n'use strict';\n\n(function (win) {\n    require.config({\n        baseUrl: './',\n        // 依赖相对路径\n        paths: {               \n            'angular': 'libs/angular.min',\n            'angular-route': 'libs/angular-route.min'\n        },\n        // 引入没有使用requirejs模块写法的类库\n        shim: {\n            'angular': {\n                exports: 'angular'\n            },\n            'angular-route': {\n                // angular-route依赖angular\n                deps: ['angular'],\n                exports: 'ngRoute'\n            }\n        }\n    });\n    \n    // 自动导入router.js模块，由于后缀名可以省略，故写作'router',\n    // 并将模块返回的结果赋予到router中。\n    require(['angular','router'], function(angular,router){\n        // 手动启动angularjs，特别说明此处的bootstrap不是那个ui框架，\n        // 而是angularjs的一个手动启动框架的函数\n        angular.bootstrap(document, ['blogApp']);\n    });\n})(window);\n```\n`main.js`中完成了各模块的初始化，并且引入了`router.js`。\n下面我们在`router.js`中配置路由：\n```javascript\n// router.js\n\ndefine(['angular', 'require', 'angular-route'], function (angular, require) {\n\n    var blogApp = angular.module('blogApp',['ngRoute']);\n\n    blogApp.config(['$routeProvider','$controllerProvider',\n        function($routeProvider,$controllerProvider) {\n            $routeProvider\n            .when('/', {\n                templateUrl:'templates/list.html',\n                controller: 'ListCtrl',\n                resolve:{\n                    delay : ctrlRegister('ListCtrl',['controllers/ListCtrl.js'])\n                }\n            })\n            .when('/data', {\n                templateUrl:'templates/data.html',\n                controller: 'DataCtrl',\n                resolve:{\n                    delay : ctrlRegister('DataCtrl',['controllers/DataCtrl.js'])\n                }\n            })\n            .otherwise({\n                redirectTo: '/'\n            });\n\n            function ctrlRegister (ctrlName, ctrlModule) {\n                return function ($q) {\n                    var defer = $q.defer();\n                    require(ctrlModule, function (controller) {\n\n                        $controllerProvider.register(ctrlName, controller);\n\n                        defer.resolve();\n                    });\n                    return defer.promise;\n                }\n            }\n        }\n    ]);\n\n    return blogApp;\n});\n```\n我把这里面拆为分三个部分来说\n第一部分：定义该模块\n```javascript\n// 引入3个基础模块\ndefine(['angular', 'require', 'angular-route'], function (angular, require) {\n    \n    // 定义整个demo为一个名为blogApp的模块\n    var blogApp = angular.module('blogApp',['ngRoute']);\n    \n    // ...第二部分：路由配置...\n    // ...第三部分：复用的动态注入控制器函数\n    \n    // 向main.js返回这个blogApp\n    return blogApp;\n});\n```\n第二部分：设置基础路由\n```javascript\nblogApp.config(['$routeProvider','$controllerProvider',\n        function($routeProvider,$controllerProvider) {\n            $routeProvider\n            .when('/', {\n                // 模板地址\n                templateUrl:'templates/list.html',\n                // 控制器的名字\n                controller: 'ListCtrl',\n                // resolve用来在完成路由前处理一些事\n                // 这里用来动态加载并注入相应的控制器\n                resolve:{\n                    // ctrlRegister为我自己写的一个复用的函数，\n                    // 用于注入控制器。见第三部分\n                    delay : ctrlRegister('ListCtrl',['controllers/ListCtrl.js'])\n                }\n            });\n       }\n}\n```\n第三部分：复用的控制器注入函数\n```javascript\n// 该函数接受两个参数\n// ctrlName，字符串类型，为该控制器的名字\n// ctrlModule，字符串数组类型，为要引入的控制器的相对地址\n// 调用例如 ctrlRegister('ListCtrl',['controllers/ListCtrl.js'])\nfunction ctrlRegister (ctrlName, ctrlModule) {\n\n    return function ($q) {\n        var defer = $q.defer();\n        // 加载该控制器，并将返回值赋给controller，返回值一般是一个控制器函数\n        require(ctrlModule, function (controller) {\n            // 将返回值注册为名称为ctrlName的控制器\n            $controllerProvider.register(ctrlName, controller);\n\n            defer.resolve();\n        });\n        // 完成注册\n        return defer.promise;\n    }\n}\n```\n好了，这样就完成了动态加载的功能了，下面就可以写要动态加载的控制器了\n用其中一个控制器`ListCtrl.js`来说明问题：\n```javascript\n// ListCtrl.js\n\n// 加载angular模块\ndefine(['angular'], function (angular) {\n    将本控制器函数作为结果返回给router.js\n    return function ListCtrl( $scope ){\n        $scope.lists = ['1','2','3'];\n    };\n});\n```\n剩下的事情就是在`list.html`中接收控制器传送的数据了：\n```\n<!-- list.html -->\n<ul>\n    <li ng-repeat='list in lists'><a href='#/{{list}}' ng-bind='list'></a></li>\n</ul>\n```\n\n最终实现的功能是：\n比如我访问`http://127.0.0.1/b06-blog/#/`只会加载`list.html`和`ListCtrl.js`；\n而当访问`http://127.0.0.1/b06-blog/#/data`就只会加载`data.html`和`DataCtrl.js`。\n这样做有什么好处呢？当有很多控制器时，可以按需加载相应的控制器，不会一股脑全部加载上来（看起来依然并没有什么卵用）。\n很惭愧，只为大家节约了一点微小的带宽，谢谢大家。"
+        };
 
         if (!article.aid) {
             window.location = '#/';
@@ -31,7 +20,7 @@ define(['angular','Hyperdown','highlight','jquery'], function (angular) {
         var hyperdown = new Hyperdown();
         var ht = hyperdown.makeHtml(article.content);
       
-    	$scope.cont = article;
+        $scope.cont = article;
         $('#contHtml').html(ht);
         $('pre code').each(function(i, block) {
             hljs.highlightBlock(block);

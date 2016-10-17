@@ -14,9 +14,8 @@ a{
 hr{
     border: 0;
     height: 1px;
-    background: #333;
-    background-image: linear-gradient(to right, #ccc, #333, #ccc);
-    color: #00561C;
+    background: #00561C;
+    background-image: linear-gradient(to right, #d0d0d0, #00561C, #d0d0d0);
 }
 code{
 	font-family: 'Consolas';
@@ -85,19 +84,17 @@ body{
 	height: 75px;
 	width: 100%;
 	margin-bottom: -75px;
-	min-width: 990px;
-	
-}
-.header-shadow{
+	min-width: 1040px;
 	border-bottom: 1px solid #ddd;
 	box-shadow: 0 2px 16px 1px #999;
 	position: fixed;
 	background: url("../img/bg.jpg");
 	margin-bottom: 0;
 }
+
 .h-item{
 	height: 45px;
-	margin: 0 30px;
+	margin: 0 20px;
 	padding: 15px 0;
 	position: relative;
 }
@@ -114,6 +111,67 @@ body{
 .logo img{
 	height: 40px;
 }
+.log-mask{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(255,255,255,0.4);
+	z-index: 100;
+}
+input.ng-invalid-pattern{
+	color: red;
+}
+.signin-pop{
+	background: #00561C; 
+	position: relative;
+	top: 120px;
+	width: 400px;
+	height: 300px;
+	border:1px solid #00561C;
+	border-radius: 10px;
+	margin:auto;
+}
+.login-pop{
+	background: #00561C;
+	position: relative;
+	top: 120px;
+	width: 400px;
+	height: 210px;
+	border:1px solid #00561C;
+	border-radius: 10px;
+	margin:auto;
+}
+.form-head{
+	color: #fff;
+	position: absolute;
+	top: 8px;
+	left: 25px;
+
+}
+.form-area{
+	display: block;
+	position: absolute;
+	top: 40px;
+	width: 100%;
+	border-radius: 0 0 10px 10px;
+	background:url("../img/bg.jpg");
+	padding-bottom: 25px;
+}
+.form-area input{
+	display:block;
+	width: 290px;
+	height: 35px;
+	padding: 3px 10px;
+	margin: 10px auto;
+	font-size: 16px;
+	background: transparent;
+	outline: none;
+	border: 1px solid #00561C;
+	border-radius: 8px;
+	box-sizing:border-box;
+}
 
 .container{
 	padding-top:75px; 
@@ -123,6 +181,8 @@ body{
 }
 .ct-box{
 	margin: 40px 0 30px 0;
+	word-wrap: break-word;
+
 }
 .ct-box hr{
 	margin: 30px 0;
@@ -147,7 +207,7 @@ body{
 }
 .footer{
 	height: 40px;
-	min-width: 990px;
+	min-width: 1040px;
 	text-align: center;
 	font-size: 12px;
 }
